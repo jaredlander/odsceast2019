@@ -140,4 +140,44 @@ house_prepped <- house_rec %>%
 house_prepped
 
 house_x <- house_prepped %>% 
-    juice(all_predictors())
+    juice(
+        all_predictors(),
+        composition='dgCMatrix'
+    )
+
+house_y <- house_prepped %>% 
+    juice(
+        all_outcomes(),
+        composition='matrix'
+    )
+
+dim(house_x)
+dim(house_y)
+
+house2 <- glmnet(x=house_x, y=house_y,
+                 family='gaussian'
+)
+plot(house2)
+plot(house2, xvar='lambda')
+plot(house2, xvar='lambda', label=TRUE)
+coefpath(house2)
+
+library(animation)
+cv.ani(k=5)
+
+house3 <- cv.glmnet(
+    x=house_x, y=house_y,
+    family='gaussian',
+    nfolds=5
+)
+plot(house3)
+
+class(house2)
+class(house3)
+
+coefpath(house3)
+coefplot(house3, sort='magnitude', 
+         lambda='lambda.min')
+
+coefplot(house3, sort='magnitude', 
+         lambda='lambda.1se', intercept=FALSE)
