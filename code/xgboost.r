@@ -155,3 +155,114 @@ dygraph(xg6$evaluation_log)
 xg6$evaluation_log$validate_logloss %>% min
 xg6$evaluation_log$validate_logloss %>% 
     which.min
+
+xg7 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=1000,
+    eval_metric='logloss',
+    watchlist=list(
+        train=hist_xgd,
+        validate=hist_val_xgd
+    ),
+    print_every_n=1,
+    early_stopping_rounds=70
+)
+
+xg7 %>% 
+    xgb.importance(
+        feature_names=colnames(hist_x),
+        model=.
+    ) %>% 
+    xgb.plot.importance()
+
+xg8 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=1000,
+    eval_metric='logloss',
+    watchlist=list(
+        train=hist_xgd,
+        validate=hist_val_xgd
+    ),
+    print_every_n=1,
+    early_stopping_rounds=70,
+    eta=0.1
+)
+
+library(yardstick)
+
+?xgb.train
+
+xg9 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=1000,
+    eval_metric='logloss',
+    watchlist=list(
+        train=hist_xgd,
+        validate=hist_val_xgd
+    ),
+    print_every_n=1,
+    early_stopping_rounds=70,
+    eta=0.1,
+    max_depth=3
+)
+xg7$best_score
+xg8$best_score
+xg9$best_score
+
+xg10 <- xgb.train(
+    data=hist_xgd,
+    nrounds=1000,
+    early_stopping_rounds=70,
+    eval_metric='logloss',
+    objective='reg:logistic',
+    watchlist=list(
+        train=hist_xgd,
+        validate=hist_val_xgd
+    ),
+    print_every_n=1,
+    booster='gblinear',
+    alpha=.03, lambda=.2
+)
+
+coefplot(xg10, sort='magnitude')
+
+xg11 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=1,
+    eval_metric='logloss',
+    watchlist=list(
+        train=hist_xgd,
+        validate=hist_val_xgd
+    ),
+    print_every_n=1,
+    early_stopping_rounds=70,
+    eta=0.3,
+    max_depth=6,
+    subsample=0.5,
+    colsample_bytree=0.5,
+    num_parallel=50
+)
+
+xg12 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=50,
+    eval_metric='logloss',
+    watchlist=list(
+        train=hist_xgd,
+        validate=hist_val_xgd
+    ),
+    print_every_n=1,
+    early_stopping_rounds=70,
+    eta=0.3,
+    max_depth=6,
+    subsample=0.5,
+    colsample_bytree=0.5,
+    num_parallel=100
+)
+dygraph(xg12$evaluation_log)
+xg12$best_score
