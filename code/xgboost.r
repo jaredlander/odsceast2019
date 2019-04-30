@@ -85,3 +85,73 @@ hist_val_xgd <- xgb.DMatrix(
     label=hist_val_y
 )
 
+xg1 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=1
+)
+
+xg1
+xgb.plot.multi.trees(
+    xg1,
+    feature_names=colnames(hist_x)
+)
+
+xg2 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=1,
+    max_depth=4
+)
+
+xgb.plot.multi.trees(
+    xg2,
+    feature_names=colnames(hist_x)
+)
+
+xg3 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=1,
+    eval_metric='logloss',
+    watchlist=list(train=hist_xgd),
+    print_every_n=1
+)
+
+xg4 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=100,
+    eval_metric='logloss',
+    watchlist=list(train=hist_xgd),
+    print_every_n=1
+)
+
+xg5 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=1000,
+    eval_metric='logloss',
+    watchlist=list(train=hist_xgd),
+    print_every_n=1
+)
+
+xg6 <- xgb.train(
+    data=hist_xgd,
+    objective='binary:logistic',
+    nrounds=1000,
+    eval_metric='logloss',
+    watchlist=list(
+        train=hist_xgd,
+        validate=hist_val_xgd
+    ),
+    print_every_n=1
+)
+
+xg6$evaluation_log
+
+library(dygraphs)
+dygraph(xg6$evaluation_log)
+xg6$evaluation_log$validate_logloss %>% min
+xg6$evaluation_log$validate_logloss %>% 
+    which.min
