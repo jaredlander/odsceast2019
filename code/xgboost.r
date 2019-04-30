@@ -266,3 +266,71 @@ xg12 <- xgb.train(
 )
 dygraph(xg12$evaluation_log)
 xg12$best_score
+
+boost_base <- boost_tree(
+    mode='classification',
+    trees=100,
+    tree_depth=4,
+    learn_rate=0.2
+)
+boost_base    
+
+boost_xg <- boost_base %>% 
+    set_engine('xgboost')
+boost_c5 <- boost_base %>% 
+    set_engine('C5.0')
+
+xg13 <- boost_xg %>% 
+    fit_xy(x=as.matrix(hist_x), y=factor(hist_y))
+
+c5_1 <- boost_c5 %>% 
+    fit_xy(x=as.matrix(hist_x), y=factor(hist_y))
+
+preds13 <- predict(xg12, newdata=hist_val_x)
+
+?xgb.train
+
+depth_choice <- sample(x=1:8, size=10, 
+                       replace=TRUE)
+eta <- runif(10, min=0.05, max=0.4)
+round_choice <- sample(c(100, 75, 200, 300, 150),
+                       size=10,
+                       replace=TRUE)
+
+params <- tibble::tibble(
+    max_depth=depth_choice,
+    eta=eta,
+    nrounds=round_choice
+) %>% 
+    dplyr::mutate(
+        params=purrr::pmap(
+            list(max_depth, eta),
+            ~list(max_depth=..1,
+                  eta=..2
+            )
+        )
+    )
+params$params
+
+models <- params %>% 
+    dplyr::mutate(
+        model=purrr::map(
+            params, 
+            ~ xgb.train(params=., 
+                        data=hist_val_xgd,
+                        nrounds=100,
+                        watchlist=list(
+                            train=hist_xgd,
+                            validate=hist_val_xgd
+                        ),
+                        eval_metric='logloss'
+            )
+        )
+    )
+
+models %>% 
+    dplyr::mutate(
+        Eval=purrr::map_dbl(
+            
+        )
+    )
