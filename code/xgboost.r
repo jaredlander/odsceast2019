@@ -24,3 +24,25 @@ hist_formula <- HistoricDistrict ~ FireService +
     LotFront + LotDepth + BldgFront + 
     BuiltFAR + 
     TotalValue + Built
+
+hist_recipe <- recipe(
+    hist_formula, 
+    data=land_train
+) %>%
+    step_other(
+        all_nominal(), -HistoricDistrict,
+        threshold=.10
+    ) %>% 
+    step_dummy(
+        all_nominal(), -HistoricDistrict, 
+        one_hot=TRUE
+    ) %>% 
+    step_downsample(HistoricDistrict) %>% 
+    step_dummy(HistoricDistrict, 
+               one_hot=FALSE)
+hist_recipe
+
+hist_prepped <- hist_recipe %>% 
+    prep(data=land_train)
+hist_prepped$template
+
