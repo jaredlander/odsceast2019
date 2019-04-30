@@ -1,0 +1,107 @@
+---
+output: github_document
+params:
+    className: odsceast2019
+    organizer: "[ODSC](https://odsc.com/boston/schedule-overview-2019)"
+    packages: !r c('tidyverse', 'tidymodels', 'ggthemes', 'rprojroot', 'here',
+               'usethis', 'UsingR', 'coefplot', 'rmarkdown', 
+               'threejs', 'leaflet', 'glmnet', 'xgboost', 'DiagrammeR')
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+```{js,echo=FALSE}
+code .sourceCode {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    overflow-wrap: break-word;
+}
+```
+
+
+```{r settings,echo=FALSE, include=FALSE}
+className <- params$className
+organizer <- params$organizer
+packages <- sort(params$packages)
+```
+
+# ODSC East 2019 Workshop
+
+This is an empty repo to initialize an R project for training courses organized by `r organizer`.
+
+# Packages
+
+To get started run the following code to install the latest version of the necessary packages.
+
+```{r install.packages,eval=FALSE,echo=FALSE}
+packages <- c('caret', 'coefplot','DBI', 'dbplyr', 'doParallel', 'dygraphs', 
+              'foreach', 'ggthemes', 'glmnet', 'jsonlite', 'leaflet', 'odbc', 
+              'recipes', 'rmarkdown', 'rprojroot', 'RSQLite', 'rvest', 
+              'tidyverse', 'threejs', 'usethis', 'UsingR', 'xgboost', 'XML', 
+              'xml2')
+install.packages(packages)
+```
+
+<div class='sourceCode'><pre class='sourceCode r'><code class='sourceCode r'>
+packages <- `r sprintf("c(\n\t'%s'\n)", paste(packages, collapse="', \n\t'"))`
+install.packages(packages)
+</code></pre></div>
+
+# Project Structure
+
+Making use of RStudio projects greatly improves the user experience. To facilitate this users should run the following code which will recreate this project on their computer. Be sure to select the positive prompts such as `yes`, `yeah`, etc.
+
+```r
+newProject <- usethis::use_course('https://github.com/jaredlander/`r className`/archive/master.zip')
+```
+
+<!-- After that runs successfully you will have a new folder holding the R project that looks like this (the name in the image may be different). -->
+
+<!-- ```{r proj-folder,echo=FALSE} -->
+<!-- knitr::include_graphics('images/ProjectFolder.png') -->
+<!-- ``` -->
+
+If a new project __did not open__ automatically, run the following line of code.
+
+```{r open-project,eval=FALSE}
+rstudioapi::openProject(newProject)
+```
+
+After running this code, you will be in an RStudio Project called `r className`. You can see this in the top right of RStudio.
+
+```{r proj-corner,echo=FALSE}
+knitr::include_graphics('images/ProjectCorner.png')
+```
+
+## Clone this Repo
+
+Alternatively, if you use git then please clone this repo then open it as an [RStudio Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
+
+Skip this step if you followed the instructions above.
+
+```sh
+# if using SSH
+git clone git@github.com:jaredlander/`r className`.git
+
+# if using https
+git clone https://github.com/jaredlander/`r className`.git
+```
+
+# Data
+
+Data for the class is kept at [data.world](https://data.world/landeranalytics/training). You can sign up for a free account or run the following code. This requires that you are using an [RStudio Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) setup exactly like this repo, which is done if you followed the preceding code.
+
+```{r source-data-file,eval=FALSE}
+source('prep/DownloadData.r')
+```
