@@ -66,5 +66,22 @@ hist_val_x <- hist_prepped %>%
     bake(
         all_predictors(),
         -HistoricDistrict_Yes,
-        new_data=land_val
+        new_data=land_val,
+        composition='dgCMatrix'
     )
+hist_val_y <- hist_prepped %>% 
+    bake(
+        HistoricDistrict_Yes,
+        new_data=land_val,
+        composition='matrix'
+    )
+
+hist_xgd <- xgb.DMatrix(
+    hist_x,
+    label=hist_y
+)
+hist_val_xgd <- xgb.DMatrix(
+    hist_val_x,
+    label=hist_val_y
+)
+
