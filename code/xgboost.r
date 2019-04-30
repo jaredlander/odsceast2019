@@ -46,3 +46,25 @@ hist_prepped <- hist_recipe %>%
     prep(data=land_train)
 hist_prepped$template
 
+hist_x <- hist_prepped %>% 
+    juice(
+        all_predictors(), 
+        -HistoricDistrict_Yes,
+        composition='dgCMatrix'
+    )
+class(hist_x)
+colnames(hist_x)
+
+hist_y <- hist_prepped %>% 
+    juice(
+        HistoricDistrict_Yes,
+        composition='matrix'
+    )
+head(hist_y)
+
+hist_val_x <- hist_prepped %>% 
+    bake(
+        all_predictors(),
+        -HistoricDistrict_Yes,
+        new_data=land_val
+    )
