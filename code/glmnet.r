@@ -58,3 +58,86 @@ build.x(Random ~ Boro, data=ny)
 build.x(Random ~ Boro, 
         data=ny,
         contrasts=FALSE)
+
+build.x(Random ~ scale(Pop) + scale(Area), ny)
+build.x(Random ~ scale(Pop) + scale(Area), 
+        ny) %>% 
+    colMeans()
+build.x(Random ~ log(Pop), ny)
+
+recipe(
+    Random ~ Pop + Area + Boro, 
+    data=ny
+) %>% 
+    prep() %>% 
+    juice()
+
+basic_rec <- recipe(
+    Random ~ Pop + Area + Boro, 
+    data=ny
+)
+basic_rec
+
+basic_rec %>% 
+    step_dummy(Boro) %>% 
+    prep() %>% 
+    juice()
+
+basic_rec %>%
+    step_center(Pop, Area) %>% 
+    step_scale(Pop, Area) %>% 
+    step_dummy(
+        Boro, 
+        one_hot=FALSE) %>% 
+    prep() %>% 
+    juice()
+
+boro_recipe <- basic_rec %>%
+    step_center(Pop, Area) %>% 
+    step_scale(Pop, Area) %>% 
+    step_dummy(
+        Boro, 
+        one_hot=TRUE
+    ) %>% 
+    step_intercept()
+boro_recipe
+boro_prepped <- boro_recipe %>% 
+    prep()
+boro_prepped
+
+boro_prepped %>% 
+    juice(Random)
+
+boro_prepped %>% 
+    juice(
+        all_predictors(),
+        composition='dgCMatrix'
+    )
+
+boro_prepped %>% 
+    juice(
+        all_outcomes(),
+        composition='matrix'
+    )
+
+
+house_rec <- recipe(
+    house_formula,
+    data=house_train
+) %>% 
+    step_log(TotalValue) %>% 
+    step_other(
+        all_nominal(), 
+        threshold=0.1
+    ) %>% 
+    step_dummy(
+        all_nominal(),
+        one_hot=TRUE
+    )
+house_rec
+house_prepped <- house_rec %>% 
+    prep()
+house_prepped
+
+house_x <- house_prepped %>% 
+    juice(all_predictors())
