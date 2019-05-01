@@ -1,0 +1,59 @@
+---
+title: Dashboarding
+output:
+    flexdashboard::flex_dashboard:
+        orientation: columns
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, cache=TRUE)
+```
+
+```{r load-packages}
+library(leaflet)
+library(magrittr)
+library(DT)
+```
+
+```{r read-data}
+pizza <- jsonlite::fromJSON(
+    here::here('data', 'FavoriteSpots.json')
+) %>% 
+    tidyr::unnest()
+```
+
+# First Page
+
+## Left Column
+
+### Table
+
+```{r pizza-table}
+datatable(pizza, rownames=FALSE, 
+          elementId='PizzaTable'
+)
+```
+
+
+## Right Column
+
+### Map
+
+```{r pizza-the-map}
+leaflet(data=pizza, elementId='PizzaMap') %>% 
+    addTiles() %>% 
+    addMarkers(
+        lng = ~ longitude, 
+        lat = ~ latitude,
+        popup = ~ Name
+    )
+```
+
+
+### Bottom Right
+
+<!-- this is a comment -->
+
+# Second Page
+
+# Third Page
