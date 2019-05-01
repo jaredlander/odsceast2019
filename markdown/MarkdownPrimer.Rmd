@@ -77,4 +77,68 @@ Backticks create `code style` text.
 
 [My website](https://www.jaredlander.com)
 
-This link goes to [our first section](#chosenID)
+This link goes to [our first section](#chosenID).
+
+# R Time!!!!!!!!!!!!!
+
+```{r simple-math}
+1 + 1
+2*3
+```
+
+Let's play with variables.
+
+```{r variables}
+x <- 3
+x
+```
+
+Let's see if the `x` object is available in subsequent chunks.
+
+```{r use-variables,echo=-1,eval=FALSE}
+# comments in a chunk
+x + 1
+```
+
+```{r show-options,results='hide'}
+z <- 5
+z*2
+```
+
+```{r show-z}
+z
+```
+
+# Plots
+
+```{r diamond-scatter,dev='png',fig.cap="Scatterplot of diamond price vs size, color coded by cut",cache=TRUE}
+library(ggplot2)
+
+ggplot(diamonds, 
+       aes(x=carat, y=price, color=cut)) + 
+    geom_point()
+```
+
+Now let's use that plot.
+
+```{r show-caching,cache=TRUE,dependson=c('diamond-scatter')}
+ggplot(diamonds, aes(x=price)) + 
+    geom_histogram()
+```
+
+```{r read-tomato-data,cache=TRUE}
+here::here()
+getwd()
+here::here('data', 'TomatoFirst.csv')
+Sys.time()
+tomato <- readr::read_csv(
+    here::here('data', 'TomatoFirst.csv')
+)
+```
+
+When we come back, we'll display the tabe of data and show how to cache based on the data changing.
+
+```{r show-tomato,cache=TRUE,dependson=c('read-tomato-data')}
+
+```
+
