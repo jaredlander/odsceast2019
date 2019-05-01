@@ -1,0 +1,62 @@
+---
+title: Super Slick Slides
+author: The ODSC Cool Kids
+output:
+    ioslides_presentation:
+        widescreen: true
+---
+
+# Intro
+
+## First Slide
+
+Hey!!!! I made a slide!
+
+<div class='notes'>
+Talk about your first slide
+</div>
+
+## Fun Times
+
+Isn't this the best?
+
+<div class='notes'>
+This is your second slide
+</div>
+
+# R Code
+
+<div class='notes'>
+This section is about R
+</div>
+
+## Code Time
+
+```{r simple-code}
+x <- 3
+x*7
+```
+
+<div class='notes'>
+R is fun!
+</div>
+
+## Plot
+
+```{r histogram,message=FALSE}
+library(ggplot2)
+ggplot(diamonds, aes(x=price)) + geom_histogram()
+```
+
+## Shortcuts
+
+```{r trying-shortcuts, echo=TRUE}
+1 + 1
+```
+
+## Widgets
+
+```{r widgets,message=FALSE}
+dygraphs::dygraph(fpp2::ausbeer)
+```
+

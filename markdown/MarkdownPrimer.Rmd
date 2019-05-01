@@ -2,7 +2,21 @@
 title: "My Fun Day with RMarkdown"
 author: "The Pi Gang"
 date: "Wednesday, May 1, 2019"
+always_allow_html: yes
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+  pdf_document:
+    toc: yes
 ---
+
+```{r setup,include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
 
 <!-- this is a comment -->
 
@@ -126,7 +140,7 @@ ggplot(diamonds, aes(x=price)) +
     geom_histogram()
 ```
 
-```{r read-tomato-data,cache=TRUE}
+```{r read-tomato-data,cache=TRUE,cache.extra=file.info(here::here('data', 'TomatoFirst.csv'))$mtime}
 here::here()
 getwd()
 here::here('data', 'TomatoFirst.csv')
@@ -139,6 +153,11 @@ tomato <- readr::read_csv(
 When we come back, we'll display the tabe of data and show how to cache based on the data changing.
 
 ```{r show-tomato,cache=TRUE,dependson=c('read-tomato-data')}
+# this will cause us trouble when we build pdf
+DT::datatable(tomato, rownames=FALSE)
+```
 
+```{r show-picture,fig.cap='Example of including an image',out.width='.5\\linewidth',fig.align='center',fig.scap='My short caption'}
+knitr::include_graphics(here::here('images', 'ProjectFolder.png'))
 ```
 
