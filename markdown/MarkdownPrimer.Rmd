@@ -1,0 +1,80 @@
+---
+title: "My Fun Day with RMarkdown"
+author: "The Pi Gang"
+date: "Wednesday, May 1, 2019"
+---
+
+<!-- this is a comment -->
+
+```{css style-customizations,echo=FALSE}
+h2 {
+    font-size: 18px;
+    color: red;
+}
+```
+
+# First Section {#chosenID}
+
+A single hashtag starts a section which should have an appropriate name. Adding some more text just to make this paragraph look longer so we can tell it's a paragraph when it renders. Notice that the entire paragraph is on line 9 (subject to change) of my document but wraps around for ease of reading.
+
+Leaving a blank line creates a new paragraph.
+
+# Second Section
+
+You start a new section with a single hashtag without closing the previous section.
+
+# Let's Talk About Subsections
+
+In a structured document you probably want to have smaller sections within a section.
+
+## First Subsection
+
+Two hashtags opens a subsection within a section.
+
+## Another Subsection
+
+The heading here should look the same as the other subsections, because CSS style choices are applied universally, unless specifically overwritten.
+
+# Lists
+
+First of all, notice, that we exit subsections and sections simply by creating a new section. We don't close anything.
+
+## Unordered Lists
+
+- Blue
+    - Royal
+    - Navy
+    - Sky
+- Yellow
+- Orange
+- Red
+- Purple
+
+## Ordered Lists
+
+1. New York
+    a. Coal
+    a. Gas
+    a. Wood
+1. New Jersey
+    a. Gas
+    a. Wood
+1. Rome
+1. Philadelphia
+1. Detroit
+1. Naples
+1. New Haven
+
+# Formatting
+
+Surrounding text with _single underscores and no spaces_ creates emphasized text, which happens to look italic^[We can override this style using CSS.] with default settings.
+
+Two __underscores__ will make strong text, which happens to look bold.
+
+Backticks create `code style` text.
+
+# Links
+
+[My website](https://www.jaredlander.com)
+
+This link goes to [our first section](#chosenID)
