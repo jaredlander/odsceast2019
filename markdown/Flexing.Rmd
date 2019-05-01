@@ -3,6 +3,8 @@ title: Dashboarding
 output:
     flexdashboard::flex_dashboard:
         orientation: columns
+        social: ["twitter", "linkedin"]
+        source_code: embed
 ---
 
 ```{r setup, include=FALSE}
@@ -20,6 +22,8 @@ pizza <- jsonlite::fromJSON(
     here::here('data', 'FavoriteSpots.json')
 ) %>% 
     tidyr::unnest()
+
+pizza <- crosstalk::SharedData$new(pizza)
 ```
 
 # First Page

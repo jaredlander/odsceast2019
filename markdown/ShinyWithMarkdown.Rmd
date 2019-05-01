@@ -1,0 +1,127 @@
+---
+title: Sparkling Objects
+author: Ted Mosby
+date: "May 1, 2019"
+output: html_document
+runtime: shiny
+---
+
+# Select Input
+
+```{r load-packages}
+library(shiny)
+library(ggplot2)
+```
+
+```{r select-input}
+selectInput(
+    inputId='CountrySelection',
+    label='Please choose a country',
+    choices=list('USA', 'Venezuela', 'Italy', 
+                 'China', 'Canada', 'Gabon',
+                 'Netherlands'
+    )
+)
+```
+
+```{r print-country}
+renderText(
+    input$CountrySelection
+)
+```
+
+# Other Inputs
+
+```{r more-inputs}
+sliderInput(
+    inputId='SliderSample',
+    label='This is a slider',
+    min=0, max=10, value=5
+)
+
+checkboxInput(
+    inputId='CheckSample',
+    label='Check this off'
+)
+
+radioButtons(
+    inputId='RadioSaple',
+    label='Choose one',
+    choices=list('A', 'B', 'C')
+)
+
+dateInput(
+    inputId='DateChoice',
+    label='Select a date'
+)
+
+dateRangeInput(
+    inputId='DateRangeSample',
+    label='Choose a start and end'
+)
+```
+
+# Text Inputs
+
+```{r text-inputs}
+textInput(
+    inputId='TextSample',
+    label='Write something',
+    placeholder='Enter words here'
+)
+
+textAreaInput(
+    inputId='BigText',
+    label='Write a lot'
+)
+
+passwordInput(
+    inputId='PasswordSample',
+    label='Enter the secret'
+)
+
+renderText(input$PasswordSample)
+```
+
+# Show Data
+
+```{r render-tables}
+renderTable(mtcars)
+
+renderDataTable(mtcars)
+
+DT::renderDataTable(mtcars)
+```
+
+# Plots
+
+```{r render-plot}
+renderPlot(
+    ggplot(mtcars, aes_string(x='mpg')) + 
+        geom_histogram()
+)
+```
+
+```{r plot-choices}
+selectInput(
+    inputId='PlotColumn',
+    label='Choose a column',
+    choices=names(mtcars)
+)
+
+sliderInput (
+    inputId='Bins',
+    label='Choose Number of Bins',
+    min=3, max=100, value=30
+)
+```
+
+```{r render-cars-plot}
+renderPlot(
+    ggplot(mtcars, 
+           aes_string(x=input$PlotColumn)
+    ) + 
+        geom_histogram(bins=input$Bins)
+)
+```
+

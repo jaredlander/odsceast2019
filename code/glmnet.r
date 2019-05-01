@@ -181,3 +181,49 @@ coefplot(house3, sort='magnitude',
 
 coefplot(house3, sort='magnitude', 
          lambda='lambda.1se', intercept=FALSE)
+
+house4 <- cv.glmnet(
+    x=house_x, y=house_y,
+    family='gaussian',
+    nfolds=5,
+    alpha=0
+)
+coefpath(house4)
+plot(house4)
+
+house5 <- cv.glmnet(
+    x=house_x, y=house_y,
+    family='gaussian',
+    nfolds=5,
+    alpha=0.4
+)
+coefpath(house5)
+
+house_test <- readr::read_rds(
+    'data/manhattan_Test.rds'
+)
+
+house_new_x <- house_prepped %>% 
+    bake(all_predictors(), new_data=house_test,
+         composition='dgCMatrix')
+
+house_preds <- predict(
+    house5, newx=house_new_x,
+    s='lambda.1se'
+)
+head(house_preds) %>% exp()
+house_preds %>% head() %>% exp()
+exp(head(house_preds))
+house5$glmnet.fit
+
+house6 <- linear_reg() %>% 
+    parsnip::set_engine(engine='glmnet') %>% 
+    fit_xy(x=as.matrix(house_x), y=house_y)
+
+house6$fit %>% coefpath()
+house6$spec
+
+house7 <- linear_reg() %>% 
+    parsnip::set_engine(engine='lm') %>% 
+    fit_xy(x=as.matrix(house_x), y=house_y)
+house7$fit %>% coefplot
