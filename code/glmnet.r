@@ -170,6 +170,7 @@ house3 <- cv.glmnet(
     family='gaussian',
     nfolds=5
 )
+readr::write_rds(house3, 'app/house3.rds')
 plot(house3)
 
 class(house2)
@@ -206,7 +207,7 @@ house_test <- readr::read_rds(
 house_new_x <- house_prepped %>% 
     bake(all_predictors(), new_data=house_test,
          composition='dgCMatrix')
-
+readr::write_rds(house_new_x, 'app/house_new.rds')
 house_preds <- predict(
     house5, newx=house_new_x,
     s='lambda.1se'

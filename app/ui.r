@@ -71,5 +71,14 @@ navbarPage(
     ),
     countryPanel,
     plotPanel,
-    pizzaStuff
+    pizzaStuff,
+    tabPanel(
+        title='Predictions',
+        textInput(
+            inputId='Lambda',
+            label='Choose a lambda',
+            value=0.06
+        ),
+        tableOutput(outputId='Preds')
+    )
 )

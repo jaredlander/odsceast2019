@@ -8,6 +8,11 @@ runtime: shiny
 
 # Select Input
 
+```{r setup}
+knitr::opts_chunk$set(echo=TRUE, cache=FALSE)
+```
+
+
 ```{r load-packages}
 library(shiny)
 library(ggplot2)
